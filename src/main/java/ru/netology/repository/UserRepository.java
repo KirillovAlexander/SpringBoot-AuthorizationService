@@ -1,11 +1,12 @@
 package ru.netology.repository;
 
 import ru.netology.model.Authorities;
+import ru.netology.model.User;
 
 import java.util.List;
 
 public interface UserRepository {
-    List<Authorities> getUserAuthorities(String user, String password);
+    List<Authorities> getUserAuthorities(User user);
 
-    void save(String name, String password, List<Authorities> authorities);
+    void save(User user, List<Authorities> authorities);
 }

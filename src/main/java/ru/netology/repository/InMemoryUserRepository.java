@@ -4,6 +4,7 @@ import org.bouncycastle.jcajce.provider.digest.SHA3;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.stereotype.Repository;
 import ru.netology.model.Authorities;
+import ru.netology.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class InMemoryUserRepository implements UserRepository{
 
-    private Map<String, Map<String, List<Authorities>>> authorities;
+    private Map<User, List<Authorities>> authorities;
 
     public InMemoryUserRepository() {
         this.authorities = new ConcurrentHashMap<>();
@@ -21,33 +22,19 @@ public class InMemoryUserRepository implements UserRepository{
     }
 
     @Override
-    public void save(String name, String password, List<Authorities> authoritiesList) {
-        Map<String, List<Authorities>> authoritiesMap = new ConcurrentHashMap<>();
-        authoritiesMap.put(password, authoritiesList);
-        authorities.put(name, authoritiesMap);
+    public void save(User user, List<Authorities> authoritiesList) {
+        authorities.put(user, authoritiesList);
     }
 
     @Override
-    public List<Authorities> getUserAuthorities(String user, String password) {
-        Map<String, List<Authorities>> authoritiesMap = authorities.get(user);
-        if (null == authoritiesMap) return null;
-        return authoritiesMap.get(password);
+    public List<Authorities> getUserAuthorities(User user) {
+        return authorities.get(user);
     }
 
     private void setTestData() {
-        SHA3.DigestSHA3 digestSHA3 = new SHA3.Digest512();
-
-        save("admin",
-                Hex.toHexString(digestSHA3.digest("admin".getBytes())),
-                getFullAuthorities());
-
-        save("user",
-                Hex.toHexString(digestSHA3.digest("123".getBytes())),
-                getReadWriteAuthorities());
-
-        save("user1",
-                Hex.toHexString(digestSHA3.digest("000".getBytes())),
-                getReadAuthorities());
+        save(new User("admin", "admin"), getFullAuthorities());
+        save(new User("user", "123"), getReadWriteAuthorities());
+        save(new User("user1", "000"), getReadAuthorities());
     }
 
     private static List<Authorities> getFullAuthorities() {

@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.netology.exception.InvalidCredentials;
 import ru.netology.exception.UnauthorizedUser;
 import ru.netology.model.Authorities;
+import ru.netology.model.User;
 import ru.netology.repository.UserRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -18,21 +20,12 @@ public class UserAuthorizationService {
         this.repository = repository;
     }
 
-    public List<Authorities> getUserAuthorities(String user, String password) {
-        if (isEmpty(user) || isEmpty(password)) {
-            throw new InvalidCredentials("User name or password is empty");
-        }
-        SHA3.DigestSHA3 digestSHA3 = new SHA3.Digest512();
-        byte[] digest = digestSHA3.digest(password.getBytes());
-        List<Authorities> userAuthorities = repository.getUserAuthorities(user, Hex.toHexString(digest));
+    public List<Authorities> getUserAuthorities(User user) {
+        List<Authorities> userAuthorities = repository.getUserAuthorities(user);
         if (isEmpty(userAuthorities)) {
             throw new UnauthorizedUser("Unknown user " + user);
         }
         return userAuthorities;
-    }
-
-    private boolean isEmpty(String str) {
-        return str == null || str.isEmpty();
     }
 
     private boolean isEmpty(List<?> str) {

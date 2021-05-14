@@ -14,4 +14,13 @@ GET localhost:8080/authorize?user=Vasya&password=admin
 
 ###
 
-GET localhost:8080/authorize?user=ADMIN&password=
+GET localhost:8080/authorize?user=A&password=123
+
+###
+
+GET localhost:8080/authorizeTest
+Content-Type: application/json
+
+{"name" :  "ad", "password" : "test"}
+
+###
