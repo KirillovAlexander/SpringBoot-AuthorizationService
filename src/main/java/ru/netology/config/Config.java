@@ -12,9 +12,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.netology.model.User;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Configuration
@@ -35,13 +32,14 @@ public class Config implements WebMvcConfigurer {
         public User resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception{
             String name = nativeWebRequest.getParameter("user");
             String password = nativeWebRequest.getParameter("password");
-            User user = new User(name, password);
-            WebDataBinder binder = webDataBinderFactory.createBinder(nativeWebRequest, user, "customResolver");
-            binder.validate();
-            if (binder.getBindingResult().hasErrors()) {
-                throw new MethodArgumentNotValidException(methodParameter, binder.getBindingResult());
-            }
-            return user;
+            return new User(name, password);
+            //User user = new User(name, password);
+           // WebDataBinder binder = webDataBinderFactory.createBinder(nativeWebRequest, user, "customResolver");
+//            binder.validate();
+//            if (binder.getBindingResult().hasErrors()) {
+//                throw new MethodArgumentNotValidException(methodParameter, binder.getBindingResult());
+//            }
+//            return user;
         }
     }
 }

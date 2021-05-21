@@ -15,10 +15,16 @@ import java.util.List;
 
 @RestController("/")
 public class AuthorizationController {
+
     private final UserAuthorizationService authorizationService;
 
     public AuthorizationController(UserAuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
+    }
+
+    @GetMapping("/")
+    public String hello() {
+        return "Hello from Spring Boot";
     }
 
     @GetMapping("/authorize")
