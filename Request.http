@@ -1,8 +1,8 @@
-GET localhost:8080/authorize?user=admin&password=admin
+GET localhost:51486/authorize?user=admin&password=admin
 
 ###
 
-GET localhost:8080/authorize?user=user&password=123
+GET localhost:51486/authorize?user=user&password=123
 
 ###
 
@@ -14,7 +14,7 @@ GET localhost:8080/authorize?user=Vasya&password=admin
 
 ###
 
-GET localhost:8080/authorize?user=A&password=123
+GET localhost:55000/authorize?user=A&password=123
 
 ###
 
